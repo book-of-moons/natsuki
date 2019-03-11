@@ -14,19 +14,18 @@
     "memory-cache": "^0.2.0"
   },
   "devDependencies": {
-    "ava": "^1.3.1",
     "eslint": "^5.15.1",
     "eslint-config-prettier": "^4.1.0",
     "eslint-plugin-ava": "^5.1.1",
     "eslint-plugin-prettier": "^3.0.1",
     "husky": "^1.3.1",
     "lint-staged": "^8.1.5",
+    "nodemon": "^1.18.10",
     "prettier": "^1.16.4"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged",
-      "pre-push": "ava"
+      "pre-commit": "lint-staged"
     }
   },
   "lint-staged": {
