@@ -13,14 +13,24 @@ const client = new sanityClient({
 const getAll = () => {
   const results = client
     .ofType("post")
-    .pick("title")
+    .pick("title,slug")
     .send()
     .then(result => result);
   writeCache(POSTS_KEY, results);
   return results;
 };
 
-const getPost = () => {};
+const getPost = slug => {
+  const initialResult = client
+    .ofType("post")
+    .pick("title,author,body")
+    .withFilter("slug")
+    .equalTo(slug)
+    .send()
+    .then(result => result);
+  writeCache(slug, initialResult);
+  return initialResult;
+};
 
 module.exports = {
   getAll,
