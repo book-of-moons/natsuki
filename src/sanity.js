@@ -1,21 +1,32 @@
-const sanityClient = require("@sanity/client");
+const sanityClient = require("sanity-query-helper");
 const { writeCache } = require("./caching");
 const { POSTS_KEY } = require("./constants");
 
 const client = new sanityClient({
-  projectId: process.env.PROJECT_ID,
-  dataset: process.env.DATASET,
-  useCdn: true
+  sanityOptions: {
+    projectId: process.env.PROJECT_ID,
+    dataset: process.env.DATASET,
+    useCdn: true
+  }
 });
 
 const getAll = () => {
   const results = client
-    .fetch('*[_type == "Post"] {title, slug}')
-    .then(results => results);
+    .ofType("post")
+    .pick("title")
+    .send()
+    .then(result => {
+      // eslint-disable-next-line no-console
+      console.log(result);
+      return result;
+    });
   writeCache(POSTS_KEY, results);
   return results;
 };
 
+const getPost = () => {};
+
 module.exports = {
-  getAll
+  getAll,
+  getPost
 };

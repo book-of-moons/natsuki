@@ -8,10 +8,11 @@
   "license": "MIT",
   "private": false,
   "dependencies": {
-    "@sanity/client": "^0.140.8",
+    "@sanity/client": "^0.132.2",
     "dotenv": "^6.2.0",
     "express": "^4.16.4",
-    "memory-cache": "^0.2.0"
+    "memory-cache": "^0.2.0",
+    "sanity-query-helper": "^0.3.0"
   },
   "devDependencies": {
     "eslint": "^5.15.1",
@@ -37,7 +38,7 @@
       ]
     },
     "ignore": [
-      "package.json"
+      "package.json","yarn.lock"
     ]
   }
 }
