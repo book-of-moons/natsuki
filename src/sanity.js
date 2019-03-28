@@ -23,9 +23,8 @@ const getAll = () => {
 const getPost = slug => {
   const initialResult = client
     .ofType("post")
-    .pick("title,author,body")
-    .withFilter("slug")
-    .equalTo(slug)
+    .withFilter("slug.current")
+    .equalTo(`"${slug}"`)
     .send()
     .then(result => result);
   writeCache(slug, initialResult);

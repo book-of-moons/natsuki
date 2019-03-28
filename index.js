@@ -4,4 +4,4 @@ const routes = require("./src/router/post");
 
 const app = express();
 app.use("/posts", routes);
-app.listen(3000);
+app.listen(process.env.PORT);
