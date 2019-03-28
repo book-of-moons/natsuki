@@ -3,12 +3,14 @@ const { writeCache } = require("./caching");
 const { POSTS_KEY } = require("./constants");
 const { postprocessor } = require("./postprocess");
 
+const sanityOptions = {
+  projectId: process.env.PROJECT_ID,
+  dataset: process.env.DATASET,
+  useCdn: true
+};
+
 const client = new sanityClient({
-  sanityOptions: {
-    projectId: process.env.PROJECT_ID,
-    dataset: process.env.DATASET,
-    useCdn: true
-  }
+  sanityOptions
 });
 
 const getAll = () => {
@@ -27,7 +29,11 @@ const getPost = slug => {
     .withFilter("slug.current")
     .equalTo(`"${slug}"`)
     .send()
-    .then(result => postprocessor(result));
+    .then(result => {
+      result = result[0];
+      result.body = postprocessor(result, sanityOptions);
+      return result;
+    });
   writeCache(slug, result);
   return result;
 };
