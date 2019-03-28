@@ -1,6 +1,7 @@
 const sanityClient = require("sanity-query-helper");
 const { writeCache } = require("./caching");
 const { POSTS_KEY } = require("./constants");
+const { postprocessor } = require("./postprocess");
 
 const client = new sanityClient({
   sanityOptions: {
@@ -21,14 +22,14 @@ const getAll = () => {
 };
 
 const getPost = slug => {
-  const initialResult = client
+  const result = client
     .ofType("post")
     .withFilter("slug.current")
     .equalTo(`"${slug}"`)
     .send()
-    .then(result => result);
-  writeCache(slug, initialResult);
-  return initialResult;
+    .then(result => postprocessor(result));
+  writeCache(slug, result);
+  return result;
 };
 
 module.exports = {
