@@ -15,11 +15,7 @@ const getAll = () => {
     .ofType("post")
     .pick("title")
     .send()
-    .then(result => {
-      // eslint-disable-next-line no-console
-      console.log(result);
-      return result;
-    });
+    .then(result => result);
   writeCache(POSTS_KEY, results);
   return results;
 };
