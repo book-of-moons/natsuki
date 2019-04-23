@@ -14,7 +14,7 @@ const client = new sanityClient(sanityOptions);
 const getAll = () => {
   const results = client
     .fetch(
-      `*[_type == "post"]{title,slug,mainImage,"author":author->{name}},"categories":categories[]->{title}`
+      `*[_type == "post"]{title,slug,mainImage,"author":author->{name},"categories":categories[]->{title}}`
     )
     .then(results =>
       results.map(item => {
@@ -34,7 +34,7 @@ const getPost = slug => {
     .then(result => {
       result = result[0];
       result.body = convertBlockObject(result.body, sanityOptions);
-      result.mainImage = convertImageUrl(result.mainImage, sanityClient);
+      result.mainImage = convertImageUrl(result.mainImage, client);
       return result;
     });
   writeCache(slug, result);
