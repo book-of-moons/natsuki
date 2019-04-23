@@ -1,6 +1,6 @@
 {
   "name": "natsuki",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "backend for book-of-moons",
   "main": "index.js",
   "repository": "https://github.com/book-of-moons/natsuki",
@@ -10,6 +10,7 @@
   "dependencies": {
     "@sanity/block-content-to-html": "^1.3.8",
     "@sanity/client": "^0.132.2",
+    "@sanity/image-url": "^0.140.12",
     "dotenv": "^6.2.0",
     "express": "^4.16.4",
     "memory-cache": "^0.2.0",

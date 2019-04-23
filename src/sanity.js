@@ -1,7 +1,7 @@
-const sanityClient = require("sanity-query-helper");
+const sanityClient = require("@sanity/client");
 const { writeCache } = require("./caching");
 const { POSTS_KEY } = require("./constants");
-const { postprocessor } = require("./postprocess");
+const { convertImageUrl } = require("./postprocess");
 
 const sanityOptions = {
   projectId: process.env.PROJECT_ID,
@@ -9,34 +9,22 @@ const sanityOptions = {
   useCdn: true
 };
 
-const client = new sanityClient({
-  sanityOptions
-});
+const client = new sanityClient(sanityOptions);
 
 const getAll = () => {
   const results = client
-    .ofType("post")
-    .pick("title,slug")
-    .send()
-    .then(result => result);
+    .fetch(`*[_type == "post"]{title,slug,mainImage,"author":author->{name}}`)
+    .then(results =>
+      results.map(item => {
+        item.mainImage = convertImageUrl(item.mainImage, client);
+        return item;
+      })
+    );
   writeCache(POSTS_KEY, results);
   return results;
 };
 
-const getPost = slug => {
-  const result = client
-    .ofType("post")
-    .withFilter("slug.current")
-    .equalTo(`"${slug}"`)
-    .send()
-    .then(result => {
-      result = result[0];
-      result.body = postprocessor(result, sanityOptions);
-      return result;
-    });
-  writeCache(slug, result);
-  return result;
-};
+const getPost = () => {};
 
 module.exports = {
   getAll,
