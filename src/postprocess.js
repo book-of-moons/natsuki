@@ -1,9 +1,9 @@
 const process = require("@sanity/block-content-to-html");
 const imageUrl = require("@sanity/image-url");
 
-const convertBlockObject = (dataObject, sanityOptions) => {
+const convertBlockObject = (blockContent, sanityOptions) => {
   return process({
-    blocks: dataObject.body,
+    blocks: blockContent,
     projectId: sanityOptions.projectId,
     dataset: sanityOptions.dataset
   });
