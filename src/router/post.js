@@ -3,11 +3,12 @@ const router = express.Router();
 const { readCache } = require("../caching");
 const { POSTS_KEY } = require("../constants");
 const { getAll, getPost } = require("../sanity");
+const { parseNumberWithDefault } = require("../utilities");
 
 router.get("/", async (req, res) => {
   const { start, end } = {
-    start: parseInt(req.query.start, 10),
-    end: parseInt(req.query.end, 10)
+    start: parseNumberWithDefault(req.query.start, 0),
+    end: parseNumberWithDefault(req.query.end, 5)
   };
   const cached = readCache(`${POSTS_KEY}_${start}_${end}`);
   if (cached) {

@@ -11,8 +11,8 @@ const sanityOptions = {
 
 const client = new sanityClient(sanityOptions);
 
-const getAll = (start = 0, end = 5) => {
-  const results = client
+const getAll = async (start = 0, end = 5) => {
+  const results = await client
     .fetch(
       `*[_type == "post"][${start}...${end}]{title,slug,mainImage,"author":author->{name},"categories":categories[]->{title},_createdAt}`
     )
@@ -22,12 +22,12 @@ const getAll = (start = 0, end = 5) => {
         return item;
       })
     );
-  writeCache(`${POSTS_KEY}_${start}_${end}`, results);
+  await writeCache(`${POSTS_KEY}_${start}_${end}`, results);
   return results;
 };
 
-const getPost = slug => {
-  const result = client
+const getPost = async slug => {
+  const result = await client
     .fetch(
       `*[_type == "post" && slug.current == "${slug}"]{title,slug,"author":author->{name,image},mainImage,"categories":categories[]->{title},body,_createdAt}`
     )
@@ -37,7 +37,7 @@ const getPost = slug => {
       result.mainImage = convertImageUrl(result.mainImage, client);
       return result;
     });
-  writeCache(slug, result);
+  await writeCache(slug, result);
   return result;
 };
 

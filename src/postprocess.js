@@ -9,10 +9,11 @@ const convertBlockObject = (blockContent, sanityOptions) => {
   });
 };
 
-const convertImageUrl = (imageRef, sanityClient, imageProps = null) => {
-  if (imageProps == null) {
-    imageProps = { width: 300, height: 300 };
-  }
+const convertImageUrl = (
+  imageRef,
+  sanityClient,
+  imageProps = { width: 300, height: 300 }
+) => {
   return imageUrl(sanityClient)
     .image(imageRef)
     .width(imageProps.width)

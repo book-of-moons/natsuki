@@ -1,6 +1,6 @@
 {
   "name": "natsuki",
-  "version": "0.4.0",
+  "version": "0.4.2",
   "description": "backend for book-of-moons",
   "main": "index.js",
   "repository": "https://github.com/book-of-moons/natsuki",
@@ -24,6 +24,9 @@
     "lint-staged": "^8.1.5",
     "nodemon": "^1.18.10",
     "prettier": "^1.16.4"
+  },
+  "scripts": {
+    "dev": "nodemon index.js"
   },
   "husky": {
     "hooks": {
