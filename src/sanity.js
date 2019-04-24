@@ -11,10 +11,10 @@ const sanityOptions = {
 
 const client = new sanityClient(sanityOptions);
 
-const getAll = () => {
+const getAll = (start = 0, end = 5) => {
   const results = client
     .fetch(
-      `*[_type == "post"]{title,slug,mainImage,"author":author->{name},"categories":categories[]->{title}}`
+      `*[_type == "post"][${start}...${end}]{title,slug,mainImage,"author":author->{name},"categories":categories[]->{title},_createdAt}`
     )
     .then(results =>
       results.map(item => {
@@ -22,7 +22,7 @@ const getAll = () => {
         return item;
       })
     );
-  writeCache(POSTS_KEY, results);
+  writeCache(`${POSTS_KEY}_${start}_${end}`, results);
   return results;
 };
 

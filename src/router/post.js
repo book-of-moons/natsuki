@@ -5,11 +5,15 @@ const { POSTS_KEY } = require("../constants");
 const { getAll, getPost } = require("../sanity");
 
 router.get("/", async (req, res) => {
-  const cached = readCache(POSTS_KEY);
+  const { start, end } = {
+    start: parseInt(req.query.start, 10),
+    end: parseInt(req.query.end, 10)
+  };
+  const cached = readCache(`${POSTS_KEY}_${start}_${end}`);
   if (cached) {
     res.send(cached);
   } else {
-    const results = await getAll();
+    const results = await getAll(start, end);
     res.send(results);
   }
 });
