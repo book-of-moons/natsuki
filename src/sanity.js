@@ -11,10 +11,10 @@ const sanityOptions = {
 
 const client = new sanityClient(sanityOptions);
 
-const getAll = async (start = 0, end = 5) => {
+const getPosts = async (start = 0, end = 5) => {
   const results = await client
     .fetch(
-      `*[_type == "post"][${start}...${end}]{title,slug,mainImage,"author":author->{name},"categories":categories[]->{title},_createdAt}`
+      `*[_type == "post"] | order(_createdAt desc)[${start}...${end}]{title,slug,mainImage,"author":author->{name},"categories":categories[]->{title},_createdAt}`
     )
     .then(results =>
       results.map(item => {
@@ -23,6 +23,21 @@ const getAll = async (start = 0, end = 5) => {
       })
     );
   await writeCache(`${POSTS_KEY}_${start}_${end}`, results);
+  return results;
+};
+
+const perCategory = async (category, start, end) => {
+  const results = await client
+    .fetch(
+      `*[_type == "post", ] | order(_createdAt desc)[${start}...${end}]{title,slug,mainImage,"author":author->{name},"categories":categories[]->{title},_createdAt}`
+    )
+    .then(results =>
+      results.map(item => {
+        item.mainImage = convertImageUrl(item.mainImage, client);
+        return item;
+      })
+    );
+  await writeCache(`${category}_${start}_${end}`, results);
   return results;
 };
 
@@ -42,6 +57,7 @@ const getPost = async slug => {
 };
 
 module.exports = {
-  getAll,
-  getPost
+  getPosts,
+  getPost,
+  perCategory
 };
