@@ -29,7 +29,7 @@ const getPosts = async (start = 0, end = 5) => {
 const perCategory = async (category, start, end) => {
   const results = await client
     .fetch(
-      `*[_type == "post", ] | order(_createdAt desc)[${start}...${end}]{title,slug,mainImage,"author":author->{name},"categories":categories[]->{title},_createdAt}`
+      `*[_type == "post" && "${category}" in categories[]->title ] | order(_createdAt desc)[${start}...${end}]{title,slug,mainImage,"author":author->{name},"categories":categories[]->{title},_createdAt}`
     )
     .then(results =>
       results.map(item => {
