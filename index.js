@@ -1,7 +1,9 @@
 require("dotenv").config();
 const express = require("express");
-const routes = require("./src/router/post");
+const postRoute = require("./src/router/post");
+const categoriesRoute = require("./src/router/categories");
 
 const app = express();
-app.use("/posts", routes);
+app.use("/posts", postRoute);
+app.use("/categories", categoriesRoute);
 app.listen(process.env.PORT);
