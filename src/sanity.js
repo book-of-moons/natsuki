@@ -1,7 +1,11 @@
 const sanityClient = require("@sanity/client");
 const { writeCache } = require("./caching");
 const { POSTS_KEY } = require("./constants");
-const { convertBlockObject, convertImageUrl } = require("./postprocess");
+const {
+  convertBlockObject,
+  convertImageUrl,
+  convertDateFormat
+} = require("./postprocess");
 
 const sanityOptions = {
   projectId: process.env.PROJECT_ID,
@@ -19,6 +23,7 @@ const getPosts = async (start = 0, end = 5) => {
     .then(results =>
       results.map(item => {
         item.mainImage = convertImageUrl(item.mainImage, client);
+        item._createdAt = convertDateFormat(item._createdAt);
         return item;
       })
     );
@@ -34,6 +39,7 @@ const perCategory = async (category, start, end) => {
     .then(results =>
       results.map(item => {
         item.mainImage = convertImageUrl(item.mainImage, client);
+        item._createdAt = convertDateFormat(item._createdAt);
         return item;
       })
     );

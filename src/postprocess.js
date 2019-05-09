@@ -1,5 +1,6 @@
 const process = require("@sanity/block-content-to-html");
 const imageUrl = require("@sanity/image-url");
+const { DateTime } = require("luxon");
 
 const convertBlockObject = (blockContent, sanityOptions) => {
   return process({
@@ -15,7 +16,12 @@ const convertImageUrl = (imageRef, sanityClient) => {
     .url();
 };
 
+const convertDateFormat = isoString => {
+  return DateTime.fromISO(isoString).toFormat("yyyy/MM/dd");
+};
+
 module.exports = {
   convertBlockObject,
-  convertImageUrl
+  convertImageUrl,
+  convertDateFormat
 };

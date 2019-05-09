@@ -1,6 +1,6 @@
 {
   "name": "natsuki",
-  "version": "0.6.1",
+  "version": "0.7.0",
   "description": "backend for book-of-moons",
   "main": "index.js",
   "repository": "https://github.com/book-of-moons/natsuki",
@@ -13,6 +13,7 @@
     "@sanity/image-url": "^0.140.12",
     "dotenv": "^6.2.0",
     "express": "^4.16.4",
+    "luxon": "^1.13.1",
     "memory-cache": "^0.2.0",
     "sanity-query-helper": "^0.3.0"
   },
@@ -27,7 +28,7 @@
   },
   "scripts": {
     "dev": "nodemon index.js",
-    "start":"node index.js"
+    "start": "node index.js"
   },
   "husky": {
     "hooks": {
