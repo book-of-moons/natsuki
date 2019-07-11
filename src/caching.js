@@ -6,4 +6,6 @@ const writeCache = (key, value) => {
 
 const readCache = key => cache.get(key);
 
-module.exports = { writeCache, readCache };
+const invalidateCache = () => cache.clear();
+
+module.exports = { writeCache, readCache, invalidateCache };

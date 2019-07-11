@@ -1,6 +1,6 @@
 {
   "name": "natsuki",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "description": "backend for book-of-moons",
   "main": "index.js",
   "repository": "https://github.com/book-of-moons/natsuki",
